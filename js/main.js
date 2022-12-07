@@ -1,3 +1,2 @@
-import {photos, getComments} from './data.js';
-photos();
-getComments();
+import {renderPictures} from './avatars.js';
+renderPictures();

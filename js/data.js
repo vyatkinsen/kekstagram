@@ -30,8 +30,4 @@ const photos = () => Array.from({length: PHOTOS_AMOUNT}).map((value, id) => ({
   comments: getComments(),
 }));
 
-// eslint-disable-next-line no-console
-console.log(photos());
-// eslint-disable-next-line no-console
-console.log(photos()[0].comments[0]);
 export {photos, getComments};
