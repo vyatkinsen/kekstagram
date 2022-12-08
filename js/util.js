@@ -7,6 +7,6 @@ const getRandomPositiveInteger = (a, b) => {
 
 const checkLineLength = (string, maxLength) => string.length <= maxLength;
 
-getRandomPositiveInteger(-1000, 0);
-checkLineLength('qwertyui', 2);
-export {getRandomPositiveInteger};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {getRandomPositiveInteger, checkLineLength, isEscapeKey};
