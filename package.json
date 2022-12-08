@@ -6,10 +6,10 @@
   "description": "Личный проект «Кекстаграм» от HTML Academy",
   "repository": {
     "type": "git",
-    "url": "git@github.com:htmlacademy-univer-javascript-1/2227391-kekstagram-1.git"
+    "url": "git@github.com:htmlacademy-univer-javascript-1/2226799-kekstagram-1.git"
   },
   "bugs": {
-    "url": "https://github.com/htmlacademy-univer-javascript-1/2227391-kekstagram-1/issues"
+    "url": "https://github.com/htmlacademy-univer-javascript-1/2226799-kekstagram-1/issues"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
@@ -18,7 +18,6 @@
     "eslint-config-htmlacademy": "5.1.2"
   },
   "license": "MIT",
-  "dependencies": {},
   "scripts": {
     "start": "browser-sync start --server --no-ui --files \"js/**/*.js\"",
     "lint": "eslint js/"
