@@ -48,14 +48,14 @@ const NAMES = [
 let commentCounter = 1;
 const getComments = () => Array.from({length: getRandomPositiveInteger(0, 100)}).map(() => ({
   id: commentCounter++,
-  avatar: `img/${getRandomPositiveInteger(1, MAX_AVATAR_VAL)}.svg`,
+  avatar: `img/avatar-${getRandomPositiveInteger(1, MAX_AVATAR_VAL)}.sv`,
   message: MESSAGES[getRandomPositiveInteger(0, MESSAGES.length - 1)],
   name: NAMES[getRandomPositiveInteger(0, NAMES.length - 1)],
 }));
 
-const photos = () => Array.from({length: PHOTOS_AMOUNT}).map((value, id) => ({
-  id: id + 1,
-  url: `photos/${id + 1}.jpg`,
+const photos = () => Array.from({length: PHOTOS_AMOUNT}).map((value, idx) => ({
+  id: idx + 1,
+  url: `photos/${idx + 1}.jpg`,
   description: DESCRIPTIONS[getRandomPositiveInteger(0, DESCRIPTIONS.length - 1)],
   likes: getRandomPositiveInteger(MIN_LIKES_VAL, MAX_LIKES_VAL),
   comments: getComments(),
