@@ -22,11 +22,14 @@ const createComments = (comments) => {
   for (let i = 0; i <= arrOfCom.length - 1; i++) {
     document.querySelector('.social__comment').remove();
   }
-  for (let i = 0; i <= comments.length - 1; i++) {
-    const photo = clone.querySelector('img');
-    photo.alt = comments[i].name;
-    photo.src = comments[i].avatar;
-    clone.querySelector('.social__text').textContent = comments[i].message;
+
+  Array.from({length:  arrOfCom.length}, () => socialCommentElement.remove());
+
+  for (const comment of comments) {
+    const img = clone.querySelector('img');
+    img.src = comment.avatar;
+    img.alt = comment.name;
+    clone.querySelector('.social__text').textContent = comment.message;
     document.querySelector('.social__comments').appendChild(clone);
     clone = socialCommentElement.cloneNode(true);
   }
