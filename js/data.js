@@ -48,7 +48,7 @@ const NAMES = [
 let commentCounter = 1;
 const getComments = () => Array.from({length: getRandomPositiveInteger(0, 100)}).map(() => ({
   id: commentCounter++,
-  avatar: `img/avatar-${getRandomPositiveInteger(1, MAX_AVATAR_VAL)}.sv`,
+  avatar: `img/avatar-${getRandomPositiveInteger(1, MAX_AVATAR_VAL)}.svg`,
   message: MESSAGES[getRandomPositiveInteger(0, MESSAGES.length - 1)],
   name: NAMES[getRandomPositiveInteger(0, NAMES.length - 1)],
 }));
