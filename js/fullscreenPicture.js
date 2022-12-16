@@ -27,7 +27,7 @@ const renderComment = (comment) => {
   return commentElement;
 };
 
-const onLoadMoreButton = () => {
+const loadComments = () => {
   for (let numberOfCurrentComment = countOfLoadedComments; numberOfCurrentComment < countOfLoadedComments + COMMENTS_TO_LOAD; numberOfCurrentComment++) {
     if (numberOfCurrentComment >= lengthOfComments) {
       return;
@@ -42,18 +42,18 @@ const onLoadMoreButton = () => {
   countOfLoadedComments += 5;
 };
 
-const closePictureModal = () => {
+const closeBigPicture = () => {
   bigPictureElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
 
   commentsCounterElement.classList.add('hidden');
   commentsLoadButton.classList.add('hidden');
 
-  commentsLoadButton.removeEventListener('click', onLoadMoreButton);
-  document.removeEventListener('keydown', onPopupEscKeydown);
+  commentsLoadButton.removeEventListener('click', loadComments);
+  document.removeEventListener('keydown', onPopupEscapeKeydown);
 };
 
-const openFullscreenPhoto = ({url, likes, comments, description}) => {
+const openBigPicture = ({url, likes, comments, description}) => {
   countOfLoadedComments = 0;
   commentsArr = comments;
   lengthOfComments = commentsArr.length;
@@ -71,21 +71,21 @@ const openFullscreenPhoto = ({url, likes, comments, description}) => {
 
   if (lengthOfComments > COMMENTS_TO_LOAD) {
     commentsLoadButton.classList.remove('hidden');
-    commentsLoadButton.addEventListener('click', onLoadMoreButton);
+    commentsLoadButton.addEventListener('click', loadComments);
   } else {
     commentsLoadButton.classList.add('hidden');
   }
-  onLoadMoreButton();
+  loadComments();
 
-  document.addEventListener('keydown', onPopupEscKeydown);
-  closeButton.addEventListener('click', closePictureModal, {once: true});
+  document.addEventListener('keydown', onPopupEscapeKeydown);
+  closeButton.addEventListener('click', closeBigPicture, {once: true});
 };
 
-function onPopupEscKeydown (evt){
-  if (isEscapeKey(evt)) {
+function onPopupEscapeKeydown (evt){
+  if (isEscapeKey) {
     evt.preventDefault();
-    closePictureModal();
+    closeBigPicture();
   }
 }
 
-export {openFullscreenPhoto};
+export {openBigPicture};
