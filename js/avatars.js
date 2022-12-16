@@ -1,5 +1,5 @@
 import {photos} from './data.js';
-import {openFullscreenPhoto} from './fullscreenPicture.js';
+import {openBigPicture} from './fullscreenPicture.js';
 
 const picturesElementsContainer = document.querySelector('.pictures');
 const picturesListFragment = document.createDocumentFragment();
@@ -15,7 +15,7 @@ const appendPicture = (picture) => {
   pictureElement.querySelector('.picture__likes').textContent = likes;
   pictureElement.querySelector('.picture__comments').textContent = comments.length;
   pictureElement.addEventListener('click', () => {
-    openFullscreenPhoto(picture);
+    openBigPicture(picture);
   });
   picturesListFragment.appendChild(pictureElement);
 };
