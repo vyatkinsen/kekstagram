@@ -5,8 +5,26 @@ const getRandomPositiveInteger = (a, b) => {
   return Math.floor(result);
 };
 
-const checkLineLength = (string, maxLength) => string.length <= maxLength;
-
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomPositiveInteger, checkLineLength, isEscapeKey};
+const showAlert = (errorMessage) => {
+  const messageElement = document.createElement('div');
+  messageElement.style.alignItems = 'center';
+  messageElement.style.fontSize = '25px';
+  messageElement.style.lineHeight = '1.5';
+  messageElement.style.textAlign = 'center';
+  messageElement.style.zIndex = '50';
+  messageElement.style.backgroundColor = 'rgba(65, 65, 65)';
+  messageElement.style.position = 'fixed';
+  messageElement.style.left = '35%';
+  messageElement.style.top = '35%';
+  messageElement.style.width = '30%';
+  messageElement.style.height = '30%';
+  messageElement.style.display = 'flex';
+  messageElement.style.color = '#e9dc45';
+  messageElement.style.borderRadius = '15px';
+  messageElement.textContent = errorMessage;
+  document.querySelector('body').appendChild(messageElement);
+};
+
+export {getRandomPositiveInteger, isEscapeKey, showAlert};
