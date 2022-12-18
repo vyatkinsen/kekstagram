@@ -1,7 +1,7 @@
 import { initFilters } from './pictures.js';
-import { getData } from './serverAPI.js';
+import { getData } from './server.js';
 import { showAlert } from './util.js';
-import './uploadPicture.js';
+import './upload-picture.js';
 
 getData((pictures) => {
   initFilters(pictures);

@@ -52,6 +52,10 @@ const closeBigPicture = () => {
   document.removeEventListener('keydown', onPopupEscapeKeydown);
 };
 
+const onCloseButton = () => {
+  closeBigPicture();
+};
+
 const openBigPicture = ({url, likes, comments, description}) => {
   countOfLoadedComments = 0;
   commentList.textContent = '';
@@ -78,7 +82,7 @@ const openBigPicture = ({url, likes, comments, description}) => {
   loadComments();
 
   document.addEventListener('keydown', onPopupEscapeKeydown);
-  closeButton.addEventListener('click', closeBigPicture, {once: true});
+  closeButton.addEventListener('click', onCloseButton, {once: true});
 };
 
 function onPopupEscapeKeydown (evt){
