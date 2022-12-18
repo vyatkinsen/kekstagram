@@ -1,7 +1,6 @@
-import {isEscapeKey} from './util.js';
+import { isEscapeKey } from './util.js';
 
 const bigPictureElement = document.querySelector('.big-picture');
-
 const imageElement = bigPictureElement.querySelector('.big-picture__img img');
 const commentsLengthElement = bigPictureElement.querySelector('.comments-count');
 const likesCounter = bigPictureElement.querySelector('.likes-count');
@@ -55,6 +54,7 @@ const closeBigPicture = () => {
 
 const openBigPicture = ({url, likes, comments, description}) => {
   countOfLoadedComments = 0;
+  commentList.textContent = '';
   commentsArr = comments;
   lengthOfComments = commentsArr.length;
 
