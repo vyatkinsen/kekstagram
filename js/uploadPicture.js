@@ -1,5 +1,5 @@
-import {isEscapeKey} from './util.js';
-import {sendData} from './serverAPI.js';
+import { isEscapeKey } from './util.js';
+import { sendData } from './serverAPI.js';
 
 const uploadFile = document.querySelector('#upload-file');
 const closeButton = document.querySelector('#upload-cancel');
@@ -21,10 +21,10 @@ const effects = imageOverlay.querySelector('.effects__list');
 const effectSlider = imageOverlay.querySelector('.effect-level__slider');
 const effectValue = imageOverlay.querySelector('.effect-level__value');
 
-const success = document.querySelector('#success').content.querySelector('.success');
-const err = document.querySelector('#error').content.querySelector('.error');
-const successButton = success.querySelector('.success__button');
-const errButton = err.querySelector('.error__button');
+const successMsg = document.querySelector('#success').content.querySelector('.success');
+const errMsg = document.querySelector('#error').content.querySelector('.error');
+const successButton = successMsg.querySelector('.success__button');
+const errButton = errMsg.querySelector('.error__button');
 
 const MAX_HASHTAGS_COUNT = 5;
 const MAX_COMMENT_LENGTH = 140;
@@ -81,7 +81,7 @@ const pristine = new Pristine(imageForm, {
 }, true);
 
 const onPopupEscKeydown = (evt) => {
-  if (isEscapeKey(evt) && evt.target !== hashtag && evt.target !== comment && !body.contains(err)) {
+  if (isEscapeKey(evt) && evt.target !== hashtag && evt.target !== comment && !body.contains(errMsg)) {
     evt.preventDefault();
     closeForm();
   }
@@ -140,12 +140,12 @@ const enableSubmitButton = () => {
 };
 
 const closeMessages = () => {
-  if (body.contains(err)) {
+  if (body.contains(errMsg)) {
     imageOverlay.classList.remove('hidden');
-    body.removeChild(err);
+    body.removeChild(errMsg);
   }
-  if (body.contains(success)) {
-    body.removeChild(success);
+  if (body.contains(successMsg)) {
+    body.removeChild(successMsg);
   }
   document.removeEventListener('keydown', onEscErr);
   document.removeEventListener('click', onCloseSuccMsg);
@@ -155,13 +155,13 @@ const closeMessages = () => {
 };
 
 function onCloseSuccMsg (evt) {
-  if (evt.target === success) {
+  if (evt.target === successMsg) {
     closeMessages();
   }
 }
 
 function onCloseErrMsg (evt) {
-  if (evt.target === err) {
+  if (evt.target === errMsg) {
     closeMessages();
   }
 }
@@ -258,7 +258,7 @@ imageForm.addEventListener('submit', (evt) => {
         successButton.addEventListener('click', closeMessages);
         document.addEventListener('keydown', onEscErr);
         document.addEventListener('click', onCloseSuccMsg);
-        body.appendChild(success);
+        body.appendChild(successMsg);
       },
       () => {
         imageOverlay.classList.add('hidden');
@@ -266,7 +266,7 @@ imageForm.addEventListener('submit', (evt) => {
         errButton.addEventListener('click', closeMessages);
         document.addEventListener('keydown', onEscErr);
         document.addEventListener('click', onCloseErrMsg);
-        body.appendChild(err);
+        body.appendChild(errMsg);
       },
       new FormData(evt.target),
     );
