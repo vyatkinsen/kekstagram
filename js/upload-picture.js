@@ -1,5 +1,5 @@
 import { isEscapeKey } from './util.js';
-import { sendData } from './serverAPI.js';
+import { sendData } from './server.js';
 
 const uploadFile = document.querySelector('#upload-file');
 const closeButton = document.querySelector('#upload-cancel');
@@ -12,20 +12,24 @@ const imageForm = document.querySelector('.img-upload__form');
 const submitButton = imageForm.querySelector('.img-upload__submit');
 const imageEffectLevel = imageOverlay.querySelector('.img-upload__effect-level');
 const imagePreview = imageOverlay.querySelector('.img-upload__preview');
-
 const scaleSmaller = imageOverlay.querySelector('.scale__control--smaller');
+
 const scaleBigger = imageOverlay.querySelector('.scale__control--bigger');
 const scaleValue = imageOverlay.querySelector('.scale__control--value');
-
 const effects = imageOverlay.querySelector('.effects__list');
+
 const effectSlider = imageOverlay.querySelector('.effect-level__slider');
 const effectValue = imageOverlay.querySelector('.effect-level__value');
-
 const successMsg = document.querySelector('#success').content.querySelector('.success');
+
 const errMsg = document.querySelector('#error').content.querySelector('.error');
 const successButton = successMsg.querySelector('.success__button');
 const errButton = errMsg.querySelector('.error__button');
 
+const fileForm = document.querySelector('input[type=file]');
+const imagePreviewEl = imagePreview.querySelector('img');
+
+const EXTENSIONS = ['jpg', 'jpeg', 'png','gif'];
 const MAX_HASHTAGS_COUNT = 5;
 const MAX_COMMENT_LENGTH = 140;
 const MIN_SCALE = 25;
@@ -80,6 +84,10 @@ const pristine = new Pristine(imageForm, {
   errorTextClass: 'text-invalid__error'
 }, true);
 
+const onCloseButton = () => {
+  closeForm();
+};
+
 const onPopupEscKeydown = (evt) => {
   if (isEscapeKey(evt) && evt.target !== hashtag && evt.target !== comment && !body.contains(errMsg)) {
     evt.preventDefault();
@@ -91,15 +99,26 @@ const getControlScale = (step, numScaleValue) => `${parseInt(numScaleValue, 10) 
 
 const getTransformScale = (step, numScaleValue) => `scale(${(parseInt(numScaleValue, 10) + step) / 100})`;
 
+const setPreviewSize = (sign, numScaleValue) => {
+  scaleValue.value = getControlScale(sign * SCALE_STEP, numScaleValue);
+  imagePreview.style.transform = getTransformScale(SCALE_STEP, numScaleValue);
+};
+
 const zoomImage = (evt) => {
   const numScaleValue = scaleValue.value.replace('%', '');
   if (evt.target === scaleBigger && numScaleValue < MAX_SCALE) {
-    scaleValue.value = getControlScale(SCALE_STEP, numScaleValue);
-    imagePreview.style.transform = getTransformScale(SCALE_STEP, numScaleValue);
+    setPreviewSize(1, numScaleValue);
   } else if (evt.target === scaleSmaller && numScaleValue > MIN_SCALE) {
-    scaleValue.value = getControlScale(-SCALE_STEP, numScaleValue);
-    imagePreview.style.transform = getTransformScale(-SCALE_STEP, numScaleValue);
+    setPreviewSize(-1, numScaleValue);
   }
+};
+
+const onScaleSmaller = (evt) => {
+  zoomImage(evt);
+};
+
+const onScaleBigger = (evt) => {
+  zoomImage(evt);
 };
 
 const onSliderUpdate = () => {
@@ -147,11 +166,7 @@ const closeMessages = () => {
   if (body.contains(successMsg)) {
     body.removeChild(successMsg);
   }
-  document.removeEventListener('keydown', onEscErr);
-  document.removeEventListener('click', onCloseSuccMsg);
-  document.removeEventListener('click', onCloseErrMsg);
-  successButton.removeEventListener('click', closeMessages);
-  errButton.removeEventListener('click', closeMessages);
+  removeMsgListeners();
 };
 
 function onCloseSuccMsg (evt) {
@@ -172,14 +187,22 @@ function onEscErr () {
   }
 }
 
+fileForm.addEventListener('change', () => {
+  const file = fileForm.files[0];
+  const name = file.name.toLowerCase();
+  if (EXTENSIONS.some((it) => name.endsWith(it))) {
+    imagePreviewEl.src = URL.createObjectURL(file);
+  }
+});
+
 uploadFile.addEventListener('change', () => {
   document.addEventListener('keydown', onPopupEscKeydown);
-  closeButton.addEventListener('click', closeForm, {once: true});
+  closeButton.addEventListener('click', onCloseButton, {once: true});
 
   scaleValue.value = '100%';
   imagePreview.style.transform = 'scale(1)';
-  scaleBigger.addEventListener('click', zoomImage);
-  scaleSmaller.addEventListener('click', zoomImage);
+  scaleBigger.addEventListener('click', onScaleBigger);
+  scaleSmaller.addEventListener('click', onScaleSmaller);
 
   currentEffect = 'effect-none';
   imagePreview.className = 'img-upload__preview';
@@ -237,13 +260,21 @@ function closeForm () {
   uploadFile.value = '';
   imageForm.reset();
   document.removeEventListener('keydown', onPopupEscKeydown);
-  scaleSmaller.removeEventListener('click', zoomImage);
-  scaleBigger.removeEventListener('click', zoomImage);
+  scaleSmaller.removeEventListener('click', onScaleSmaller);
+  scaleBigger.removeEventListener('click', onScaleBigger);
   imageForm.removeEventListener('change', onChangeEffects);
   body.classList.remove('modal-open');
   imageOverlay.classList.add('hidden');
   effectSlider.noUiSlider.destroy();
   pristine.destroy();
+}
+
+function removeMsgListeners () {
+  document.removeEventListener('keydown', onEscErr);
+  document.removeEventListener('click', onCloseSuccMsg);
+  document.removeEventListener('click', onCloseErrMsg);
+  successButton.removeEventListener('click', closeMessages);
+  errButton.removeEventListener('click', closeMessages);
 }
 
 imageForm.addEventListener('submit', (evt) => {

@@ -1,5 +1,5 @@
 import { faker } from 'https://cdn.skypack.dev/@faker-js/faker';
-import { openBigPicture } from './fullscreenPicture.js';
+import { openBigPicture } from './fullscreen-picture.js';
 import { debounce } from './util.js';
 
 const picturesElementsContainer = document.querySelector('.pictures');
